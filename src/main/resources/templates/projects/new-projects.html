@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar"></nav>
+
+<div class="container" style="text-align: center">
+    <h4>Add a new project</h4>
+    <form action="/projects/save" method="POST" th:object="${project}">
+        <input type="text" placeholder="Project Name" th:field="${project.name}">
+        <select th:field="${project.stage}">
+            <option th:value="NOTSTARTED"> Not Started</option>
+            <option th:value="INPROGRESS"> In Progress</option>
+            <option th:value="COMPLETED"> Completed</option>
+        </select>
+        <textarea type="text" placeholder="Enter Project Description" th:field="${project.description}" ></textarea>
+
+        <!-- the * is used to reference a property inside the current th:object -->
+        <!-- the same thing could be achieved with ${project.employees} -->
+        <select th:field="*{employees}" multiple="multiple">
+            <option th:each="employee : ${allEmployees}"
+                    th:value="${employee.employeeId}"
+                    th:text="${employee.firstName}">
+            </option>
+        </select>
+
+        <button type="submit">Create Project</button>
+    </form>
+</div>
+
+</body>
+
+</html>

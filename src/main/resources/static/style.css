@@ -1,0 +1,7 @@
+.tableHeader{
+    text-align: center !important;
+}
+
+th, td {
+    text-align: center;
+}
