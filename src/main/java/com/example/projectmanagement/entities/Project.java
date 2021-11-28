@@ -1,19 +1,24 @@
 package com.example.projectmanagement.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity // important to define this as an Entity - indicates it will be saved into a database
 public class Project {
     @Id // indicates that this value will be the id/primary key
-    @GeneratedValue(strategy = GenerationType.AUTO) // indicates that we want this value to be auto generated
+    @SequenceGenerator(name = "project_seq", sequenceName = "PROJECT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_seq") // indicates that we want this value to be auto generated
     private long projectId;
 
     private String name;
     private String stage; // to categorize a project - NOT_STARTED, COMPLETED, IN_PROGRESS
     private String description;
 
-    @OneToMany(mappedBy = "project") // define this "project" property in the Employee entity
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
+            fetch = FetchType.LAZY) // define this "project" property in the Employee entity
+    @JoinTable(name = "project_employee", joinColumns = @JoinColumn(name = "project_id"),
+                                    inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private List<Employee> employees;
 
     public Project(String name, String stage, String description) {
@@ -24,6 +29,11 @@ public class Project {
     }
 
     public Project(){}
+
+    public void addEmployee(Employee employee){
+        if (employees == null) employees = new ArrayList<>();
+        employees.add(employee);
+    }
 
     public List<Employee> getEmployees() {
         return employees;

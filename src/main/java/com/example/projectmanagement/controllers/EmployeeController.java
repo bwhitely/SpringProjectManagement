@@ -15,8 +15,19 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
+    @Autowired // remove @Autowired for Constructor Injection and Setter Injection
     EmployeeRepository employeeRepo;
+
+    // Constructor Injection
+//    public EmployeeController(EmployeeRepository employeeRepo){
+//        this.employeeRepo = employeeRepo;
+//    }
+
+    // Setter Injection
+    // @Autowired
+    public void setEmployeeRepo(EmployeeRepository employeeRepo) {
+        this.employeeRepo = employeeRepo;
+    }
 
     @GetMapping("/new")
     public String displayEmployeeForm(Model model){

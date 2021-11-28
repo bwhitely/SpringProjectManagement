@@ -36,19 +36,19 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/save")
-    public String createProject(Project project, @RequestParam List<Long> employees, Model model){
+    public String createProject(Project project, Model model){
         projRepo.save(project);
 
-        // Save the project to the Employee - aka. add the FK of proj_id to Employee correctly
-        Iterable<Employee> chosenEmployees = empRepo.findAllById(employees);
-
-        for (Employee e : chosenEmployees){
-            e.setProject(project);
-            empRepo.save(e);
-        }
+//        // Save the project to the Employee - aka. add the FK of proj_id to Employee correctly
+//        Iterable<Employee> chosenEmployees = empRepo.findAllById(employees);
+//
+//        for (Employee e : chosenEmployees){
+//            e.addProject(project);
+//            empRepo.save(e);
+//        }
 
         // redirect to prevent duplicate submissions
-        return "redirect:/projects/new";
+        return "redirect:/projects/";
     }
 
     @GetMapping("/")

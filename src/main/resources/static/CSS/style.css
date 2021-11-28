@@ -2,6 +2,10 @@
     text-align: center !important;
 }
 
-th, td {
+thead, td, h4 {
     text-align: center;
+}
+
+.container {
+    margin: 0;
 }
